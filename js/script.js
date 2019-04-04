@@ -1,5 +1,6 @@
 /* global $ */
 
+
 $(document).ready(function() {
     var firstLevel = game.levels.start;
     renderLevel(firstLevel);
@@ -7,10 +8,10 @@ $(document).ready(function() {
     // When user clicks a choice, go to the next level
     $("body").on("click", "#choices button", function() {
         var nextLevel = $(this).attr("data-next-level");
-        $("#wrapper").animateCss("fadeOut", function() {
+        $(".intro").animateCss("fadeOut", function() {
             renderLevel(game.levels[nextLevel]);
-            $("#wrapper").removeClass("fadeOut");
-            $("#wrapper").addClass("fadeIn");
+            $(".intro").removeClass("fadeOut");
+            $(".intro").addClass("fadeIn");
         });
     });
 });
@@ -29,10 +30,13 @@ function renderLevel(level) {
 
     setMusic(level);
     setImage(level);
+    setColor(level);
 }
 
 var currentMusic = "";
 
+
+//what makes the music play
 function setMusic(level) {
     var music = level.music || game.music || "";
 
@@ -42,9 +46,25 @@ function setMusic(level) {
     }
 }
 
+//if an image was chosen for the background, this is what would make it be displayed
 function setImage(level) {
+    var responseImage = level.responseImage;
     var image = level.background_image || game.background_image || "";
     $("#background-image").css("background-image", "url(./img/" + image + ")");
+    if(responseImage){
+    $("#responseImage").css("background-image", "url(" + responseImage + ")");
+}else{
+    $("#responseImage").css("background-image","");
+}
+    
+
+}
+
+var currentColor = "";
+function setColor(level) {
+    var color = level.color;
+    $(".intro").css("background", "linear-gradient(to bottom," + " " + color +  " " + "0%, #ffffff 100%");
+
 }
 
 $.fn.extend({
